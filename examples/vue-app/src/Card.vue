@@ -1,0 +1,1 @@
+<template><article><h2>Release board</h2><slot /></article></template>

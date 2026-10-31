@@ -1,0 +1,20 @@
+{
+  "name": "@frames/protocol",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    "./types": {
+      "types": "./src/types.ts",
+      "default": "./dist/types.js"
+    },
+    "./schema": {
+      "types": "./src/schema.ts",
+      "default": "./dist/schema.js"
+    }
+  },
+  "dependencies": {
+    "effect": "4.0.0-rc.118"
+  }
+}

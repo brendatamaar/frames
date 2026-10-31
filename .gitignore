@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.frames/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
