@@ -220,3 +220,5 @@ Append one line per meaningful change: date, agent or person, task ID, outcome.
 - 2026-10-31, Codex, FE-setup: Applied user-approved Model Functional Effect service profile, core/shell paths, deny mode, changed-core recheck, path-scoped rules and agent guidance; automatic bun test verification awaits separate approval. No M1 work started.
 
 - 2026-10-31, Codex, M1-preflight: Stopped before M1. M0 local checks and fixture startup are recorded, but HEAD contains only LICENSE; scaffold, package manifests, lockfile and checks are uncommitted. The clean-clone M0 acceptance gate cannot be met from current history. Commit M0 and verify bun install --frozen-lockfile, make check and bun run smoke:examples in a clean checkout before starting M1.
+
+- 2026-10-31, Codex, M0-clean-clone: Committed scaffold in five logical changes. Fresh Windows checkout exposed CRLF conversion conflicting with Biome; added .gitattributes to enforce LF for reproducible checks.
