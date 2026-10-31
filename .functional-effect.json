@@ -1,0 +1,21 @@
+{
+  "core": ["packages/*/src/core/**", "packages/daemon/src/version.ts"],
+  "shell": [
+    "packages/*/src/shell/**",
+    "packages/daemon/src/cli.ts",
+    "packages/daemon/src/effect-examples.ts",
+    "packages/protocol/src/schema.ts",
+    "packages/*/src/main.*",
+    "packages/vite-plugin/src/index.ts",
+    "packages/inspector/src/index.ts"
+  ],
+  "exclude": [],
+  "mode": "deny",
+  "stopCheck": "changed",
+  "profile": "service",
+  "designDir": "docs/design",
+  "verify": {
+    "command": "bun test",
+    "timeout": 120
+  }
+}
