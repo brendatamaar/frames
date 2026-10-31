@@ -41,6 +41,23 @@ all temporary source edits are restored in finally blocks.
 - S0 injects a marker, not the inspector. HTML is treated as UTF-8. Inline-script
   CSP restrictions and non-UTF-8 documents are not proven by this spike; S1 must
   account for its actual inspector delivery. Default listener is loopback only.
-- Browser probing uses Node CDP with the installed browser; S0b still needs its
-  separate Playwright compatibility decision. Source accuracy is not measured
+- S0 browser probing uses Node CDP with the installed browser; S0b records its
+  separate Playwright compatibility decision below. Source accuracy is not measured
   until S5. The overall M1 gate remains pending.
+
+## S0b — Playwright compatibility
+
+Measured 2026-11-01 with @playwright/test 1.64.1 and the same local Edge browser.
+
+- `bun --bun node_modules/@playwright/test/cli.js test --config spike/playwright.config.ts`
+  failed before test collection: `AggregateError: 2 errors building` the test
+  module, then `No tests found`. Direct Bun compilation of the module succeeded;
+  this is a runner compatibility observation, not a TypeScript syntax failure.
+- Running the same Playwright runner through Node 22.22.3 passed: one test starts
+  a loopback HTTP fixture, opens its page, clicks a button, checks the changed DOM
+  and verifies there were no page errors. The test asserts it runs in Node.
+- Decision: keep Node as the test-only Playwright runtime, as permitted by S0b.
+  Run `bun run e2e`. S0's six-frame probe remains reproducible through CDP.
+- Added exact @playwright/test 1.64.1 dev dependency. Registry metadata for it,
+  playwright and playwright-core reports Apache-2.0, compatible with MIT. Use
+  installed Edge (or FRAMES_BROWSER); no browser download is needed.
