@@ -1,0 +1,13 @@
+{
+  "name": "@frames/daemon",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "frames": "./src/cli.ts"
+  },
+  "dependencies": {
+    "effect": "4.0.0-rc.118"
+  }
+}
