@@ -1,0 +1,16 @@
+{
+  "name": "@frames/example-react",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "@radix-ui/react-slot": "1.5.0"
+  }
+}
