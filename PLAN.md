@@ -136,7 +136,7 @@ Durations are part-time estimates. A phase starts only when the gate before it i
 
 Goal: prove the proxy on Bun and element-to-source before any canvas work.
 
-- [ ] **S0 Bun proxy gate (first 2 days).** Build only the proxy on Bun against `vue-app` and `react-app`. It passes only if: HMR updates reach a framed app through the proxy, HTML injection works on compressed responses, redirects and cookies survive, and six frames run concurrently. If it fails, implement the Node version of `ProxyService`, and record why in `spike/results.md`.
+- [x] **S0 Bun proxy gate (first 2 days).** Build only the proxy on Bun against `vue-app` and `react-app`. It passes only if: HMR updates reach a framed app through the proxy, HTML injection works on compressed responses, redirects and cookies survive, and six frames run concurrently. If it fails, implement the Node version of `ProxyService`, and record why in `spike/results.md`.
 - [ ] **S0b Playwright check (first week).** Confirm Playwright runs in this setup. If it does not work under Bun, drive the browser through the DevTools Protocol or keep Node as a test-only dependency, and record the decision.
 - [ ] **S1 Proxy + injector.** `frames proxy <url>` serves the target through a local port, injects the inspector, and keeps HMR working. Handles iframe-blocking headers.
 - [ ] **S2 Inspector.** Hover highlight, click select, shift-click multi-select, rendered in a Shadow DOM so it does not disturb page styles. Capture-phase listeners that block the app's own click handlers while inspect mode is on. Reports tag, classes, key computed styles, box size, selector. Rebuilds itself after an HMR reload.
@@ -226,3 +226,6 @@ Append one line per meaningful change: date, agent or person, task ID, outcome.
 - 2026-10-31, Codex, M0-gate: Fresh clone of c8252e4 passed bun install --frozen-lockfile, make check (4 tests, all package builds, 292-byte gzip inspector), bun run smoke:examples (Vue, React, Svelte) and Node package-loading smoke; clean clone remained unchanged. M0 acceptance gate met; earlier M1-preflight blocker resolved. GitHub default branch confirmed as main.
 
 - 2026-10-31, Codex, M1-S0-design: Confirmed recorded M0 gate evidence; created M1-bun-proxy and prepared docs/design/s0-bun-proxy.md for required Functional Effect design approval. S0 implementation and gate measurements remain pending; no milestone checkbox ticked.
+
+- 2026-11-01, Codex, M1-S0: Implemented pure proxy policy and scoped Bun ProxyService; real HTTP/WS contracts and six-frame Vue/React HMR browser gate pass. make check passed (16 tests); explicit core purity scan passed; HTML guard mutation was caught. Results and deflate boundary finding recorded in spike/results.md; no new dependencies.
+- 2026-11-01, Codex, M1-note: Biome includes generated .frames files despite gitignore. Left tooling unchanged; probe profiles live under ignored .frames/dist. Automatic approval review blocked deletion of initial profiles; preserved them there using reversible moves.

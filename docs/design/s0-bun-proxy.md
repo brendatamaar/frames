@@ -131,6 +131,14 @@ S0b separately records the supported full Playwright setup. No canvas work.
 
 ## Open questions
 
-Approve this S0 design before implementation. No additional product decision is
+Approved by the user on 2026-10-31. No additional product decision is
 needed: use an injected marker for S0, defer the inspector to S1/S2. If Bun fails
 the gate, record the failure and implement the planned Node service fallback.
+
+Implementation notes: the test-only Node CDP harness owns its children with
+try/finally; the daemon proxy listeners are Effect Scope resources. No reusable
+DevServer capability is introduced by this spike. The Layer fake tests the
+service configuration boundary; real local HTTP/WS fixtures test wire behavior.
+Use node:zlib inflateSync under Bun for standard HTTP deflate (Bun.inflateSync
+rejected the zlib-wrapped fixture). The browser harness temporarily exports App
+from the React entry to exercise Fast Refresh, restoring the original afterward.
