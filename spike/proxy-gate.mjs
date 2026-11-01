@@ -241,6 +241,18 @@ try {
       ),
       "HMR must use proxy, not Vite fallback port",
     );
+    if (cliMode) {
+      assert(
+        await evaluate(`Array.from(document.querySelectorAll('iframe')).every(frame => {
+        const doc = frame.contentDocument;
+        const root = doc.querySelector('frames-inspector')?.shadowRoot;
+        root?.querySelector('button').click();
+        doc.querySelector('h1').click();
+        return root?.querySelector('button').getAttribute('aria-pressed') === 'true' && root.querySelectorAll('li').length === 1;
+      })`),
+        `${app}: inspector must select in all six frames`,
+      );
+    }
     const file = `examples/${app}-app/src/${app === "vue" ? "App.vue" : "main.tsx"}`;
     const original = await readFile(file, "utf8");
     assert(original.includes("Project dashboard"));
@@ -266,8 +278,20 @@ try {
         initial.map((frame) => frame.token),
         "HMR must not reload the documents",
       );
+      if (cliMode) {
+        assert(
+          await evaluate(`Array.from(document.querySelectorAll('iframe')).every(frame => {
+          const doc = frame.contentDocument;
+          const roots = doc.querySelectorAll('frames-inspector');
+          const root = roots[0]?.shadowRoot;
+          doc.querySelector('h1').click();
+          return roots.length === 1 && root?.querySelector('button').getAttribute('aria-pressed') === 'true' && root.querySelectorAll('li').length === 1;
+        })`),
+          `${app}: inspector must remain interactive after HMR`,
+        );
+      }
       console.log(
-        `${app}: PASS six concurrent framed apps; injected marker; proxied HMR update; no document reload`,
+        `${app}: PASS six concurrent framed apps; inspector injection; proxied HMR update; no document reload${cliMode ? "; inspector interactive after HMR" : ""}`,
       );
     } finally {
       await writeFile(file, original);

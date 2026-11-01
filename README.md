@@ -2,8 +2,8 @@
 
 Self-hosted context for coding agents. The code is the source of truth.
 
-M1 spike in progress: the development proxy is available. Inspector interactions
-and source stamping are not implemented yet.
+M1 spike in progress: the development proxy and inspector are available.
+Source stamping is not implemented yet.
 See [PLAN.md](PLAN.md) for scope and [AGENTS.md](AGENTS.md) for contributor rules.
 
 Requires Bun 1.3.14+ and Node 22+ (compatibility check).
@@ -22,7 +22,10 @@ After starting a development server, build Frames and proxy its origin:
     bun run packages/daemon/src/cli.ts proxy http://127.0.0.1:5173
 
 Open the printed loopback URL. The proxy injects the built inspector entry and
-passes HMR through; the inspector entry remains a stub until S2. Stop with Ctrl+C.
+passes HMR through. Click Inspect to enable hover highlighting and selection;
+Shift-click toggles additional targets. Disabling Inspect clears the selection
+and restores ordinary app clicks. The readout includes selectors, computed
+styles and element bounds. Stop with Ctrl+C.
 Use an HTTP(S) origin without a path or credentials. This command is development
 only and refuses NODE_ENV=production. Restrictive script CSP policies remain
 enforced and may block the inspector; Frames preserves those policies.

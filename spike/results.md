@@ -96,3 +96,32 @@ bun run e2e
   behavior belong to S2. Production NODE_ENV is rejected. Restrictive script CSP
   policies remain enforced; non-UTF-8 HTML is still unproven. Binary embedding is
   deliberately left for M2.
+
+## S2 — Inspector
+
+Measured 2026-11-01 with the S0 runtime/browser versions. No new dependencies.
+
+- Inspect toggles a Shadow DOM overlay. Hover shows an outline; clicking selects
+  one element and Shift-click toggles additional elements. The readout reports
+  tag, classes, selector, key computed styles and bounding box. Disabling clears
+  targets and restores ordinary app clicks.
+- The pure inspection model has generated sequence tests with shrinking for
+  disabled click pass-through, unique selections, ordinary/modified clicks,
+  removal, snapshot refresh and terminal disposal. Removing the disposal guard
+  made the tests fail; restoring it passed. The explicit purity scan passes.
+- Real-browser tests verify selector round trips (including escaped and duplicate
+  IDs), stable node identity, rejected detached/shadow-root targets and invalid
+  geometry. They verify capture-phase click blocking, unchanged host styles,
+  pointer-transparent highlights, scroll refresh, target removal, host restoration,
+  duplicate script injection, full reload and teardown. Rendered preview inspected
+  locally at `.frames/dist/inspector-preview.png`.
+- `make check` passes 44 tests, all builds and the inspector size gate. Inspector
+  bundle is 2,954 bytes gzip against the 51,200-byte limit. `bun run e2e` passes
+  five real-browser tests.
+- FRAMES_GATE_CLI=1 with `node spike/proxy-gate.mjs` passes for Vue and React:
+  six frames per app retain one enabled inspector and working selection after
+  HMR, with unchanged document identities and no direct Vite WebSocket fallback.
+- No postMessage surface is introduced. App-owned shadow-root targets, restrictive
+  style CSP and capture handlers that ran before the inspector on the same window
+  remain limitations. Source lookup and screenshots remain S4 and S6; the overall
+  M1 source-accuracy gate is still pending.

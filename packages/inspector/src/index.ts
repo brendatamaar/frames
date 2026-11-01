@@ -1,2 +1,3 @@
-// M0 bundle entry. Inspector behavior starts in M1.
-export {};
+import { installInspector } from "./shell/overlay";
+
+installInspector(document, window);

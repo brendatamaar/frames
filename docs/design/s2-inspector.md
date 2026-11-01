@@ -138,8 +138,16 @@ introduced. A future message boundary must have origin and Schema parity tests.
 
 ## Open questions
 
-Approve before implementation. Proposed simple UI: a fixed Inspect toggle and
+Approved by the user on 2026-11-01. Simple UI: a fixed Inspect toggle and
 readout inside the overlay; ordinary click selects one, Shift-click toggles a
 target in the ordered selection, disabling clears selection. Source resolution
 remains S4. Capturing at window blocks downstream app handlers; handlers that
 already ran earlier on the same capture target cannot be retroactively blocked.
+
+Implementation notes: element references and session IDs stay in the shell;
+only hovered/selected nodes retain strong references. A document-local symbol
+prevents duplicate installations. Mutation observers restore a removed host and
+refresh snapshots; pagehide releases resources unless the document enters the
+back-forward cache. App-owned shadow-root targets are rejected by the selector
+boundary for this spike. Restrictive style CSP can block injected overlay CSS;
+the proxy preserves that policy rather than widening it.
