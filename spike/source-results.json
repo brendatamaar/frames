@@ -1,0 +1,656 @@
+[
+  {
+    "app": "vue",
+    "total": 20,
+    "correct": 20,
+    "rows": [
+      {
+        "selector": "main",
+        "expected": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 11
+        },
+        "actual": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 11
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "h1",
+        "expected": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 17
+        },
+        "actual": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 17
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article",
+        "expected": {
+          "file": "src/Card.vue",
+          "line": 1,
+          "column": 11
+        },
+        "actual": {
+          "file": "src/Card.vue",
+          "line": 1,
+          "column": 11
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "h2",
+        "expected": {
+          "file": "src/Card.vue",
+          "line": 1,
+          "column": 20
+        },
+        "actual": {
+          "file": "src/Card.vue",
+          "line": 1,
+          "column": 20
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article button",
+        "expected": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 49
+        },
+        "actual": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 49
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article ul",
+        "expected": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 106
+        },
+        "actual": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 106
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article li:nth-child(1)",
+        "expected": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 125
+        },
+        "actual": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 125
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article li:nth-child(2)",
+        "expected": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 125
+        },
+        "actual": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 125
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article li:nth-child(3)",
+        "expected": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 125
+        },
+        "actual": {
+          "file": "src/App.vue",
+          "line": 9,
+          "column": 125
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review",
+        "expected": {
+          "file": "src/Details.vue",
+          "line": 2,
+          "column": 3
+        },
+        "actual": {
+          "file": "src/Details.vue",
+          "line": 2,
+          "column": 3
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review h3",
+        "expected": {
+          "file": "src/Details.vue",
+          "line": 3,
+          "column": 5
+        },
+        "actual": {
+          "file": "src/Details.vue",
+          "line": 3,
+          "column": 5
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review p",
+        "expected": {
+          "file": "src/Details.vue",
+          "line": 4,
+          "column": 5
+        },
+        "actual": {
+          "file": "src/Details.vue",
+          "line": 4,
+          "column": 5
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review strong",
+        "expected": {
+          "file": "src/Details.vue",
+          "line": 4,
+          "column": 24
+        },
+        "actual": {
+          "file": "src/Details.vue",
+          "line": 4,
+          "column": 24
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review dl",
+        "expected": {
+          "file": "src/Details.vue",
+          "line": 5,
+          "column": 5
+        },
+        "actual": {
+          "file": "src/Details.vue",
+          "line": 5,
+          "column": 5
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review dt:nth-of-type(1)",
+        "expected": {
+          "file": "src/Details.vue",
+          "line": 6,
+          "column": 7
+        },
+        "actual": {
+          "file": "src/Details.vue",
+          "line": 6,
+          "column": 7
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review dd:nth-of-type(1)",
+        "expected": {
+          "file": "src/Details.vue",
+          "line": 7,
+          "column": 7
+        },
+        "actual": {
+          "file": "src/Details.vue",
+          "line": 7,
+          "column": 7
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review dt:nth-of-type(2)",
+        "expected": {
+          "file": "src/Details.vue",
+          "line": 8,
+          "column": 7
+        },
+        "actual": {
+          "file": "src/Details.vue",
+          "line": 8,
+          "column": 7
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review dd:nth-of-type(2)",
+        "expected": {
+          "file": "src/Details.vue",
+          "line": 9,
+          "column": 7
+        },
+        "actual": {
+          "file": "src/Details.vue",
+          "line": 9,
+          "column": 7
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review footer",
+        "expected": {
+          "file": "src/Details.vue",
+          "line": 11,
+          "column": 5
+        },
+        "actual": {
+          "file": "src/Details.vue",
+          "line": 11,
+          "column": 5
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review a",
+        "expected": {
+          "file": "src/Details.vue",
+          "line": 11,
+          "column": 13
+        },
+        "actual": {
+          "file": "src/Details.vue",
+          "line": 11,
+          "column": 13
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      }
+    ]
+  },
+  {
+    "app": "react",
+    "total": 20,
+    "correct": 20,
+    "rows": [
+      {
+        "selector": "main",
+        "expected": {
+          "file": "src/main.tsx",
+          "line": 18,
+          "column": 5
+        },
+        "actual": {
+          "file": "src/main.tsx",
+          "line": 18,
+          "column": 5
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "h1",
+        "expected": {
+          "file": "src/main.tsx",
+          "line": 19,
+          "column": 7
+        },
+        "actual": {
+          "file": "src/main.tsx",
+          "line": 19,
+          "column": 7
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article",
+        "expected": {
+          "file": "src/main.tsx",
+          "line": 9,
+          "column": 5
+        },
+        "actual": {
+          "file": "src/main.tsx",
+          "line": 9,
+          "column": 5
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "h2",
+        "expected": {
+          "file": "src/main.tsx",
+          "line": 10,
+          "column": 7
+        },
+        "actual": {
+          "file": "src/main.tsx",
+          "line": 10,
+          "column": 7
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article button",
+        "expected": {
+          "file": "src/main.tsx",
+          "line": 22,
+          "column": 11
+        },
+        "actual": {
+          "file": "src/main.tsx",
+          "line": 22,
+          "column": 11
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article ul",
+        "expected": {
+          "file": "src/main.tsx",
+          "line": 27,
+          "column": 11
+        },
+        "actual": {
+          "file": "src/main.tsx",
+          "line": 27,
+          "column": 11
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article li:nth-child(1)",
+        "expected": {
+          "file": "src/main.tsx",
+          "line": 30,
+          "column": 17
+        },
+        "actual": {
+          "file": "src/main.tsx",
+          "line": 30,
+          "column": 17
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article li:nth-child(2)",
+        "expected": {
+          "file": "src/main.tsx",
+          "line": 30,
+          "column": 17
+        },
+        "actual": {
+          "file": "src/main.tsx",
+          "line": 30,
+          "column": 17
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "article li:nth-child(3)",
+        "expected": {
+          "file": "src/main.tsx",
+          "line": 30,
+          "column": 17
+        },
+        "actual": {
+          "file": "src/main.tsx",
+          "line": 30,
+          "column": 17
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review",
+        "expected": {
+          "file": "src/Details.tsx",
+          "line": 3,
+          "column": 5
+        },
+        "actual": {
+          "file": "src/Details.tsx",
+          "line": 3,
+          "column": 5
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review h3",
+        "expected": {
+          "file": "src/Details.tsx",
+          "line": 4,
+          "column": 7
+        },
+        "actual": {
+          "file": "src/Details.tsx",
+          "line": 4,
+          "column": 7
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review p",
+        "expected": {
+          "file": "src/Details.tsx",
+          "line": 5,
+          "column": 7
+        },
+        "actual": {
+          "file": "src/Details.tsx",
+          "line": 5,
+          "column": 7
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review strong",
+        "expected": {
+          "file": "src/Details.tsx",
+          "line": 6,
+          "column": 25
+        },
+        "actual": {
+          "file": "src/Details.tsx",
+          "line": 6,
+          "column": 25
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review dl",
+        "expected": {
+          "file": "src/Details.tsx",
+          "line": 8,
+          "column": 7
+        },
+        "actual": {
+          "file": "src/Details.tsx",
+          "line": 8,
+          "column": 7
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review dt:nth-of-type(1)",
+        "expected": {
+          "file": "src/Details.tsx",
+          "line": 9,
+          "column": 9
+        },
+        "actual": {
+          "file": "src/Details.tsx",
+          "line": 9,
+          "column": 9
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review dd:nth-of-type(1)",
+        "expected": {
+          "file": "src/Details.tsx",
+          "line": 10,
+          "column": 9
+        },
+        "actual": {
+          "file": "src/Details.tsx",
+          "line": 10,
+          "column": 9
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review dt:nth-of-type(2)",
+        "expected": {
+          "file": "src/Details.tsx",
+          "line": 11,
+          "column": 9
+        },
+        "actual": {
+          "file": "src/Details.tsx",
+          "line": 11,
+          "column": 9
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review dd:nth-of-type(2)",
+        "expected": {
+          "file": "src/Details.tsx",
+          "line": 12,
+          "column": 9
+        },
+        "actual": {
+          "file": "src/Details.tsx",
+          "line": 12,
+          "column": 9
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review footer",
+        "expected": {
+          "file": "src/Details.tsx",
+          "line": 14,
+          "column": 7
+        },
+        "actual": {
+          "file": "src/Details.tsx",
+          "line": 14,
+          "column": 7
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      },
+      {
+        "selector": "#review a",
+        "expected": {
+          "file": "src/Details.tsx",
+          "line": 15,
+          "column": 9
+        },
+        "actual": {
+          "file": "src/Details.tsx",
+          "line": 15,
+          "column": 9
+        },
+        "correct": true,
+        "columnCorrect": true,
+        "failure": null
+      }
+    ]
+  }
+]

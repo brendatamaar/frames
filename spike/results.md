@@ -168,3 +168,64 @@ transforms and candidate review are documented in docs/source-mapping.md.
   Inspector gzip is 3,391 bytes. No dependency added.
 - Six-frame Vue/React HMR probes verify the inspector readout, updated source
   positions and changed HTML after HMR. S5 remains the full accuracy measurement.
+
+<!-- source-measurement:start -->
+## S5 — Source accuracy measurement
+
+Measured 2026-11-01 using Playwright, real pointer clicks, the built CLI proxy and the current Vue/React fixtures. Added static Details components so each app has 20 distinct native targets. Expected locations use fixed source anchors, not DOM stamp values. All failures remain in the denominator.
+
+### vue: 20/20 (100%)
+
+| Target                      | Expected file:line:column | Resolved file:line:column | Result |
+| --------------------------- | ------------------------- | ------------------------- | ------ |
+| `main`                      | src/App.vue:9:11          | src/App.vue:9:11          | PASS   |
+| `h1`                        | src/App.vue:9:17          | src/App.vue:9:17          | PASS   |
+| `article`                   | src/Card.vue:1:11         | src/Card.vue:1:11         | PASS   |
+| `h2`                        | src/Card.vue:1:20         | src/Card.vue:1:20         | PASS   |
+| `article button`            | src/App.vue:9:49          | src/App.vue:9:49          | PASS   |
+| `article ul`                | src/App.vue:9:106         | src/App.vue:9:106         | PASS   |
+| `article li:nth-child(1)`   | src/App.vue:9:125         | src/App.vue:9:125         | PASS   |
+| `article li:nth-child(2)`   | src/App.vue:9:125         | src/App.vue:9:125         | PASS   |
+| `article li:nth-child(3)`   | src/App.vue:9:125         | src/App.vue:9:125         | PASS   |
+| `#review`                   | src/Details.vue:2:3       | src/Details.vue:2:3       | PASS   |
+| `#review h3`                | src/Details.vue:3:5       | src/Details.vue:3:5       | PASS   |
+| `#review p`                 | src/Details.vue:4:5       | src/Details.vue:4:5       | PASS   |
+| `#review strong`            | src/Details.vue:4:24      | src/Details.vue:4:24      | PASS   |
+| `#review dl`                | src/Details.vue:5:5       | src/Details.vue:5:5       | PASS   |
+| `#review dt:nth-of-type(1)` | src/Details.vue:6:7       | src/Details.vue:6:7       | PASS   |
+| `#review dd:nth-of-type(1)` | src/Details.vue:7:7       | src/Details.vue:7:7       | PASS   |
+| `#review dt:nth-of-type(2)` | src/Details.vue:8:7       | src/Details.vue:8:7       | PASS   |
+| `#review dd:nth-of-type(2)` | src/Details.vue:9:7       | src/Details.vue:9:7       | PASS   |
+| `#review footer`            | src/Details.vue:11:5      | src/Details.vue:11:5      | PASS   |
+| `#review a`                 | src/Details.vue:11:13     | src/Details.vue:11:13     | PASS   |
+
+### react: 20/20 (100%)
+
+| Target                      | Expected file:line:column | Resolved file:line:column | Result |
+| --------------------------- | ------------------------- | ------------------------- | ------ |
+| `main`                      | src/main.tsx:18:5         | src/main.tsx:18:5         | PASS   |
+| `h1`                        | src/main.tsx:19:7         | src/main.tsx:19:7         | PASS   |
+| `article`                   | src/main.tsx:9:5          | src/main.tsx:9:5          | PASS   |
+| `h2`                        | src/main.tsx:10:7         | src/main.tsx:10:7         | PASS   |
+| `article button`            | src/main.tsx:22:11        | src/main.tsx:22:11        | PASS   |
+| `article ul`                | src/main.tsx:27:11        | src/main.tsx:27:11        | PASS   |
+| `article li:nth-child(1)`   | src/main.tsx:30:17        | src/main.tsx:30:17        | PASS   |
+| `article li:nth-child(2)`   | src/main.tsx:30:17        | src/main.tsx:30:17        | PASS   |
+| `article li:nth-child(3)`   | src/main.tsx:30:17        | src/main.tsx:30:17        | PASS   |
+| `#review`                   | src/Details.tsx:3:5       | src/Details.tsx:3:5       | PASS   |
+| `#review h3`                | src/Details.tsx:4:7       | src/Details.tsx:4:7       | PASS   |
+| `#review p`                 | src/Details.tsx:5:7       | src/Details.tsx:5:7       | PASS   |
+| `#review strong`            | src/Details.tsx:6:25      | src/Details.tsx:6:25      | PASS   |
+| `#review dl`                | src/Details.tsx:8:7       | src/Details.tsx:8:7       | PASS   |
+| `#review dt:nth-of-type(1)` | src/Details.tsx:9:9       | src/Details.tsx:9:9       | PASS   |
+| `#review dd:nth-of-type(1)` | src/Details.tsx:10:9      | src/Details.tsx:10:9      | PASS   |
+| `#review dt:nth-of-type(2)` | src/Details.tsx:11:9      | src/Details.tsx:11:9      | PASS   |
+| `#review dd:nth-of-type(2)` | src/Details.tsx:12:9      | src/Details.tsx:12:9      | PASS   |
+| `#review footer`            | src/Details.tsx:14:7      | src/Details.tsx:14:7      | PASS   |
+| `#review a`                 | src/Details.tsx:15:9      | src/Details.tsx:15:9      | PASS   |
+
+Reproduce: `bun run e2e`, then `node spike/render-measurement.mjs`. Raw expected/actual rows are in spike/source-results.json. The initial measurement harness used an ambiguous button selector that also matched the inspector toggle; it was corrected to article button before recording these results. No resolution failure was filtered out.
+
+The file:line gate passes in each app separately. This measures these fixtures, not arbitrary repositories, unsupported frameworks or third-party internals.
+
+<!-- source-measurement:end -->
