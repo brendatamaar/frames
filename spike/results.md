@@ -229,3 +229,33 @@ Reproduce: `bun run e2e`, then `node spike/render-measurement.mjs`. Raw expected
 The file:line gate passes in each app separately. This measures these fixtures, not arbitrary repositories, unsupported frameworks or third-party internals.
 
 <!-- source-measurement:end -->
+
+<!-- screenshot-comparison:start -->
+## S6 — Screenshot comparison
+
+Measured 2026-11-01 on the Vue/React apps in Edge 156.0.4314.50. Libraries: modern-screenshot 4.7.0 and @zumer/snapdom 3.7.0, both MIT. Both are exact dev-only dependencies with no production inspector integration.
+
+Method: 720px styled main root, PNG scale/DPR 1, three runs per library/scene, first and median times recorded separately. Vue runs modern first; React runs SnapDOM first. Browser reference is the same root's native screenshot. CORS assets come from a second loopback origin; non-loopback network requests are blocked. RGB mean absolute error is 0–255 over overlapping pixels; dimension mismatches are reported separately. Timing includes the lazy import on the first call and is machine-specific.
+
+| App   | Scene   | Library | First ms | Median ms | Mean RGB error | Output / reference | Asset matches |
+| ----- | ------- | ------- | -------- | --------- | -------------- | ------------------ | ------------- |
+| vue   | base    | modern  | 430.4    | 56.6      | 0.892          | 720×600 / 720×601  | n/a           |
+| vue   | base    | snapdom | 195.9    | 16.5      | 0.743          | 720×600 / 720×601  | n/a           |
+| vue   | cors    | modern  | 163.9    | 121.2     | 1.178          | 720×666 / 720×667  | yes           |
+| vue   | cors    | snapdom | 97.2     | 21.0      | 0.668          | 720×667 / 720×667  | yes           |
+| vue   | no-cors | modern  | 157.2    | 157.2     | 2.553          | 720×666 / 720×667  | no            |
+| vue   | no-cors | snapdom | 101.6    | 22.8      | 1.731          | 720×667 / 720×667  | no            |
+| react | base    | snapdom | 268.4    | 30.5      | 0.743          | 720×600 / 720×601  | n/a           |
+| react | base    | modern  | 239.4    | 108.8     | 0.892          | 720×600 / 720×601  | n/a           |
+| react | cors    | snapdom | 101.6    | 22.4      | 0.668          | 720×667 / 720×667  | yes           |
+| react | cors    | modern  | 202.1    | 226.8     | 1.178          | 720×666 / 720×667  | yes           |
+| react | no-cors | snapdom | 114.6    | 28.3      | 1.731          | 720×667 / 720×667  | no            |
+| react | no-cors | modern  | 196.9    | 159.2     | 2.553          | 720×666 / 720×667  | no            |
+
+Choice: **SnapDOM 3.7.0** for later lazy screenshot integration. Its median is lower in all six app/scene pairs and its pixel error is lower in each comparison. First-run timings fluctuate and do not establish a universal cold-start advantage. Both base captures round a fractional root height down by one pixel. This is the planned S6 selection among the candidates, not an M2 integration change.
+
+Both libraries reproduce the CORS-enabled image. Neither reproduces the opaque cross-origin image: visual inspection shows a SnapDOM placeholder and a blank area from modern-screenshot. The image-center pixel check independently confirms omission. Do not claim full cross-origin fidelity; use the planned daemon-side headless-browser fallback when that matters in M2. No public CORS proxy or disabled security is used.
+
+PNGs were visually inspected under .frames/dist/capture. Raw numbers are in spike/screenshot-results.json. Reproduce with bun run e2e, then node spike/render-screenshots.mjs. Capture code is test-only and lazily split; the initial inspector bundle is unchanged.
+
+<!-- screenshot-comparison:end -->

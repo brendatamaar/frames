@@ -1,0 +1,194 @@
+[
+  {
+    "app": "vue",
+    "scene": "base",
+    "library": "modern",
+    "firstMs": 430.3999999994412,
+    "medianMs": 56.60000000055879,
+    "comparison": {
+      "width": 720,
+      "height": 600,
+      "referenceWidth": 720,
+      "referenceHeight": 601,
+      "meanChannelError": 0.8924722222222222,
+      "imageMatches": null
+    },
+    "error": null
+  },
+  {
+    "app": "vue",
+    "scene": "base",
+    "library": "snapdom",
+    "firstMs": 195.90000000037253,
+    "medianMs": 16.5,
+    "comparison": {
+      "width": 720,
+      "height": 600,
+      "referenceWidth": 720,
+      "referenceHeight": 601,
+      "meanChannelError": 0.7431103395061729,
+      "imageMatches": null
+    },
+    "error": null
+  },
+  {
+    "app": "vue",
+    "scene": "cors",
+    "library": "modern",
+    "firstMs": 163.8999999994412,
+    "medianMs": 121.20000000018626,
+    "comparison": {
+      "width": 720,
+      "height": 666,
+      "referenceWidth": 720,
+      "referenceHeight": 667,
+      "meanChannelError": 1.1775108441775108,
+      "imageMatches": true
+    },
+    "error": null
+  },
+  {
+    "app": "vue",
+    "scene": "cors",
+    "library": "snapdom",
+    "firstMs": 97.20000000018626,
+    "medianMs": 21,
+    "comparison": {
+      "width": 720,
+      "height": 667,
+      "referenceWidth": 720,
+      "referenceHeight": 667,
+      "meanChannelError": 0.668465073019046,
+      "imageMatches": true
+    },
+    "error": null
+  },
+  {
+    "app": "vue",
+    "scene": "no-cors",
+    "library": "modern",
+    "firstMs": 157.20000000018626,
+    "medianMs": 157.20000000018626,
+    "comparison": {
+      "width": 720,
+      "height": 666,
+      "referenceWidth": 720,
+      "referenceHeight": 667,
+      "meanChannelError": 2.5531128350572794,
+      "imageMatches": false
+    },
+    "error": null
+  },
+  {
+    "app": "vue",
+    "scene": "no-cors",
+    "library": "snapdom",
+    "firstMs": 101.59999999962747,
+    "medianMs": 22.799999999813735,
+    "comparison": {
+      "width": 720,
+      "height": 667,
+      "referenceWidth": 720,
+      "referenceHeight": 667,
+      "meanChannelError": 1.7312975456716087,
+      "imageMatches": false
+    },
+    "error": null
+  },
+  {
+    "app": "react",
+    "scene": "base",
+    "library": "snapdom",
+    "firstMs": 268.40000000037253,
+    "medianMs": 30.5,
+    "comparison": {
+      "width": 720,
+      "height": 600,
+      "referenceWidth": 720,
+      "referenceHeight": 601,
+      "meanChannelError": 0.7431103395061729,
+      "imageMatches": null
+    },
+    "error": null
+  },
+  {
+    "app": "react",
+    "scene": "base",
+    "library": "modern",
+    "firstMs": 239.3999999994412,
+    "medianMs": 108.79999999981374,
+    "comparison": {
+      "width": 720,
+      "height": 600,
+      "referenceWidth": 720,
+      "referenceHeight": 601,
+      "meanChannelError": 0.8924722222222222,
+      "imageMatches": null
+    },
+    "error": null
+  },
+  {
+    "app": "react",
+    "scene": "cors",
+    "library": "snapdom",
+    "firstMs": 101.59999999962747,
+    "medianMs": 22.40000000037253,
+    "comparison": {
+      "width": 720,
+      "height": 667,
+      "referenceWidth": 720,
+      "referenceHeight": 667,
+      "meanChannelError": 0.668465073019046,
+      "imageMatches": true
+    },
+    "error": null
+  },
+  {
+    "app": "react",
+    "scene": "cors",
+    "library": "modern",
+    "firstMs": 202.09999999962747,
+    "medianMs": 226.80000000074506,
+    "comparison": {
+      "width": 720,
+      "height": 666,
+      "referenceWidth": 720,
+      "referenceHeight": 667,
+      "meanChannelError": 1.1775108441775108,
+      "imageMatches": true
+    },
+    "error": null
+  },
+  {
+    "app": "react",
+    "scene": "no-cors",
+    "library": "snapdom",
+    "firstMs": 114.59999999962747,
+    "medianMs": 28.299999999813735,
+    "comparison": {
+      "width": 720,
+      "height": 667,
+      "referenceWidth": 720,
+      "referenceHeight": 667,
+      "meanChannelError": 1.7312975456716087,
+      "imageMatches": false
+    },
+    "error": null
+  },
+  {
+    "app": "react",
+    "scene": "no-cors",
+    "library": "modern",
+    "firstMs": 196.90000000037253,
+    "medianMs": 159.20000000018626,
+    "comparison": {
+      "width": 720,
+      "height": 666,
+      "referenceWidth": 720,
+      "referenceHeight": 667,
+      "meanChannelError": 2.5531128350572794,
+      "imageMatches": false
+    },
+    "error": null
+  }
+]

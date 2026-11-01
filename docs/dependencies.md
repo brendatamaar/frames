@@ -33,3 +33,7 @@ from installed metadata before declaration:
 | magic-string      | 0.30.21 | MIT          | Source edits/maps      |
 | typescript        | 5.9.3   | Apache-2.0   | JSX/TSX parser         |
 | source-map-js     | 1.2.2   | BSD-3-Clause | Test-only map consumer |
+
+S6 comparison-only dev dependencies: modern-screenshot 4.7.0 and @zumer/snapdom
+3.7.0, both MIT. Registry and installed metadata checked before use; neither
+declares runtime dependencies or enters the initial inspector bundle.
