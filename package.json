@@ -15,7 +15,7 @@
     "build": "node scripts/build.mjs",
     "check": "bun run typecheck && bun run lint && bun test && bun run build && node scripts/inspector-size.mjs",
     "smoke:examples": "node scripts/example-smoke.mjs",
-    "e2e": "node node_modules/@playwright/test/cli.js test --config spike/playwright.config.ts"
+    "e2e": "bun run build && node node_modules/@playwright/test/cli.js test --config spike/playwright.config.ts"
   },
   "dependencies": {
     "effect": "4.0.0-rc.118"

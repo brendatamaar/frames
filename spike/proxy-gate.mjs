@@ -110,18 +110,40 @@ try {
     }, `${app} startup`);
     origins.push(origin);
   }
-  const host = child("bun", [
-    "run",
-    "packages/daemon/src/shell/proxy-spike.ts",
-    ...origins,
-  ]);
-  const proxies = await until(() => {
-    const line = host
-      .output()
-      .split(/\r?\n/)
-      .find((value) => value.startsWith('{"vue"'));
-    return line && JSON.parse(line);
-  }, "proxy startup");
+  const cliMode = process.env.FRAMES_GATE_CLI === "1";
+  const host = cliMode
+    ? undefined
+    : child("bun", [
+        "run",
+        "packages/daemon/src/shell/proxy-spike.ts",
+        ...origins,
+      ]);
+  const proxies = cliMode
+    ? {}
+    : await until(() => {
+        const line = host
+          .output()
+          .split(/\r?\n/)
+          .find((value) => value.startsWith('{"vue"'));
+        return line && JSON.parse(line);
+      }, "proxy startup");
+  if (cliMode) {
+    for (const [index, app] of ["vue", "react"].entries()) {
+      const cli = child("bun", [
+        "run",
+        "packages/daemon/dist/cli.js",
+        "proxy",
+        origins[index],
+      ]);
+      proxies[app] = await until(() => {
+        if (cli.handle.exitCode !== null) throw new Error(cli.output());
+        return cli
+          .output()
+          .split(/\r?\n/)
+          .find((line) => /^http:\/\/127\.0\.0\.1:\d+$/.test(line));
+      }, `${app} CLI startup`);
+    }
+  }
   await mkdir(profile, { recursive: true });
   const executable =
     process.env.FRAMES_BROWSER ??
@@ -183,7 +205,7 @@ try {
     await until(
       () =>
         evaluate(
-          `!!document.querySelector('h1') && window.__framesSpike === true`,
+          `!!document.querySelector('h1') && (window.__framesSpike === true || !!document.querySelector('script[data-frames-inspector]'))`,
         ),
       `${app} parent render`,
     );
@@ -194,7 +216,7 @@ try {
       evaluate(`Array.from(document.querySelectorAll('iframe'), frame => ({
       title: frame.contentDocument?.querySelector('h1')?.textContent,
       token: frame.contentWindow.__documentToken,
-      injected: frame.contentWindow.__framesSpike,
+      injected: frame.contentWindow.__framesSpike || frame.contentWindow.performance.getEntriesByType('resource').some(entry => entry.name.endsWith('/__frames/inspector.js') && entry.responseStatus === 200),
       urls: frame.contentWindow.__socketUrls,
       messages: frame.contentWindow.__socketMessages
     }))`);

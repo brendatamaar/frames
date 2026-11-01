@@ -146,6 +146,59 @@ test("real HTTP contract: compressed HTML, binary, headers, redirects, cookies a
   }
 });
 
+test("inspector route is reserved; injection preserves CSP and serves no unrelated files", async () => {
+  const upstream = fixture();
+  const script = "window.inspectorReady=true;";
+  try {
+    await Effect.runPromise(
+      Effect.scoped(
+        Effect.gen(function* () {
+          const service = yield* ProxyService;
+          const proxy = yield* service.start({
+            upstream: upstream.url.origin,
+            inspectorScript: script,
+          });
+          yield* Effect.tryPromise(async () => {
+            const asset = await fetch(`${proxy.origin}/__frames/inspector.js`);
+            expect(asset.status).toBe(200);
+            expect(asset.headers.get("content-type")).toContain(
+              "text/javascript",
+            );
+            expect(asset.headers.get("cache-control")).toBe("no-store");
+            expect(await asset.text()).toBe(script);
+            const html = await fetch(proxy.origin);
+            expect(await html.text()).toContain(
+              '<script defer src="/__frames/inspector.js" data-frames-inspector>',
+            );
+            expect(html.headers.get("content-security-policy")).toBe(
+              "img-src 'self'",
+            );
+            expect(
+              (await fetch(`${proxy.origin}/__frames/secret`)).status,
+            ).toBe(404);
+            expect(
+              (
+                await fetch(`${proxy.origin}/__frames/inspector.js`, {
+                  method: "POST",
+                })
+              ).status,
+            ).toBe(405);
+            const head = await fetch(`${proxy.origin}/__frames/inspector.js`, {
+              method: "HEAD",
+            });
+            expect(head.status).toBe(200);
+            expect(await head.text()).toBe("");
+            const binary = await fetch(`${proxy.origin}/binary`);
+            expect(await binary.text()).toBe("binary payload");
+          });
+        }),
+      ).pipe(Effect.provide(BunProxyLive)),
+    );
+  } finally {
+    upstream.stop(true);
+  }
+});
+
 test("WebSocket contract: selected Vite protocol, ordered text/binary and scope cleanup", async () => {
   const upstream = fixture();
   let origin = "";

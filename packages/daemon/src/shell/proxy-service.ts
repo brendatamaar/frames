@@ -10,6 +10,7 @@ export class ProxyUpstreamError extends Data.TaggedError("ProxyUpstreamError")<{
 export interface ProxyOptions {
   readonly upstream: string;
   readonly port?: number;
+  readonly inspectorScript?: string;
 }
 export interface ProxyHandle {
   readonly origin: Origin;

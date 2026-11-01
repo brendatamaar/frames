@@ -61,3 +61,38 @@ Measured 2026-11-01 with @playwright/test 1.64.1 and the same local Edge browser
 - Added exact @playwright/test 1.64.1 dev dependency. Registry metadata for it,
   playwright and playwright-core reports Apache-2.0, compatible with MIT. Use
   installed Edge (or FRAMES_BROWSER); no browser download is needed.
+
+## S1 — Proxy command and injector
+
+Measured 2026-11-01 with the S0 runtime/browser versions.
+
+```sh
+bun run build
+bun run packages/daemon/src/cli.ts proxy http://127.0.0.1:5173
+# Or: bun run packages/daemon/dist/cli.js proxy http://127.0.0.1:5173
+bun run e2e
+```
+
+- The command prints an OS-allocated loopback URL and serves the built inspector
+  at `/__frames/inspector.js`. Only HTML receives the external script reference.
+  GET/HEAD work on the asset; other methods get 405 and unknown reserved paths
+  get 404. No general-purpose filesystem serving is introduced.
+- Playwright verifies the bundled CLI and asset path: both a parent document and
+  its iframe load the inspector with HTTP 200 under `script-src 'self'`. Upstream
+  X-Frame-Options and CSP frame-ancestors are removed while the other CSP rules
+  survive; the inspector request does not reach the upstream server.
+- Lifecycle property tests cover single startup, announcement only after
+  acquisition, and quiet terminal states. Removing the terminal guard made its
+  property fail; the restored implementation passes. Layer tests cover missing
+  assets, startup failure, normal shutdown, cancellation during startup and signal
+  subscription cleanup. Real HTTP/WS contracts remain green.
+- `make check` passes (36 tests and all builds); `bun run e2e` passes two browser
+  tests. The explicit Functional Effect scan reports the new lifecycle core pure.
+- With FRAMES_GATE_CLI=1, `node spike/proxy-gate.mjs` starts the built CLI instead
+  of the S0 test host. Six Vue frames and six React frames each load the local
+  inspector asset, use only proxied WebSockets, receive HMR edits and retain their
+  document identities. Both app probes pass; temporary source edits are restored.
+- No new dependencies. The inspector still contains the M0 stub: hover and click
+  behavior belong to S2. Production NODE_ENV is rejected. Restrictive script CSP
+  policies remain enforced; non-UTF-8 HTML is still unproven. Binary embedding is
+  deliberately left for M2.

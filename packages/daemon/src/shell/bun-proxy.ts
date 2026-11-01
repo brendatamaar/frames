@@ -52,6 +52,28 @@ function openProxy(options: ProxyOptions) {
     idleTimeout: 30,
     async fetch(request, listener) {
       const incoming = new URL(request.url);
+      if (
+        options.inspectorScript !== undefined &&
+        incoming.pathname.startsWith("/__frames/")
+      ) {
+        if (incoming.pathname !== "/__frames/inspector.js")
+          return new Response("Not found", { status: 404 });
+        if (request.method !== "GET" && request.method !== "HEAD")
+          return new Response("Method not allowed", {
+            status: 405,
+            headers: { allow: "GET, HEAD" },
+          });
+        return new Response(
+          request.method === "HEAD" ? null : options.inspectorScript,
+          {
+            headers: {
+              "content-type": "text/javascript; charset=utf-8",
+              "cache-control": "no-store",
+              "x-content-type-options": "nosniff",
+            },
+          },
+        );
+      }
       const target = new URL(upstream);
       target.pathname = incoming.pathname;
       target.search = incoming.search;
@@ -224,9 +246,13 @@ function openProxy(options: ProxyOptions) {
             throw new Error("Unsupported HTML encoding");
         }
         const html = new TextDecoder().decode(bytes);
+        const injection =
+          options.inspectorScript === undefined
+            ? marker
+            : '<script defer src="/__frames/inspector.js" data-frames-inspector></script>';
         const injected = /<\/head\s*>/i.test(html)
-          ? html.replace(/<\/head\s*>/i, `${marker}</head>`)
-          : marker + html;
+          ? html.replace(/<\/head\s*>/i, `${injection}</head>`)
+          : injection + html;
         return new Response(injected, {
           status: response.status,
           statusText: response.statusText,

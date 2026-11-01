@@ -126,6 +126,12 @@ record restrictive script policies as a limitation rather than disabling CSP.
 
 ## Open questions
 
-Approval required before S1 implementation. Proposed defaults: OS-allocated port,
+Approved by the user on 2026-11-01. Defaults: OS-allocated port,
 print its loopback URL, require an origin URL (matching S0), serve the existing
 built inspector stub until S2. Binary asset embedding stays in M2 as planned.
+
+Implementation notes: process signals race the workflow and interrupt pending
+acquisition. ReleaseScope is interpreted by returning from that race and closing
+the enclosing Effect scope. The CLI rejects proxy mode when NODE_ENV=production.
+The reserved inspector route accepts only GET/HEAD and never proxies other
+reserved paths. E2E builds first to verify both the bundled CLI and its asset path.
