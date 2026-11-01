@@ -1,5 +1,12 @@
 # M1 spike results
 
+Final status (2026-11-01): **M1 gate passed**. S0 passes on Bun; Vue and React each
+resolve 20/20 measured file:line pairs (100%, all columns also correct). Final
+verification passed 57 unit tests, 12 browser tests, all builds, Node compatibility,
+the five-core purity scan and six-frame HMR/readout probes. Inspector gzip is
+3,391 bytes. Earlier sections retain chronological findings; S7 is the final
+decision and gate report. Work stops here before M2.
+
 ## S0 — Bun proxy
 
 Measured 2026-11-01 on Windows, Bun 1.3.14, Node 22.22.3 and
@@ -259,3 +266,52 @@ Both libraries reproduce the CORS-enabled image. Neither reproduces the opaque c
 PNGs were visually inspected under .frames/dist/capture. Raw numbers are in spike/screenshot-results.json. Reproduce with bun run e2e, then node spike/render-screenshots.mjs. Capture code is test-only and lazily split; the initial inspector bundle is unchanged.
 
 <!-- screenshot-comparison:end -->
+
+## S7 — Decisions and milestone gate
+
+| Area            | Decision                                                  | Evidence / next boundary                                                                                                                               |
+| --------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Proxy           | Keep Bun behind ProxyService                              | Compressed HTML, binary passthrough, redirects/cookies, Vite subprotocol and six framed HMR sessions pass. No Node proxy fallback needed.              |
+| Inspector       | Keep the pure selection/context core and Shadow DOM shell | Real click blocking, multi-select, source/DOM fallback, mutation/HMR refresh and disposal pass. Initial bundle is 3,391 bytes gzip.                    |
+| Source stamping | Keep native Vue/JSX AST stamping for these frameworks     | Vue 20/20 and React 20/20 file:line matches, with all columns matching. Extend framework coverage in M2 rather than guessing ancestors.                |
+| Test runner     | Keep Node for Playwright                                  | Bun runner collection failed; the Node runner and compiled-package smoke work. Bun remains the daemon/runtime toolchain.                               |
+| Screenshots     | Select SnapDOM from the planned comparison                | Lower median capture times and mean pixel error in the six measured pairs. Lazy production integration and opaque-image browser fallback remain M2.    |
+| Protocol        | Retain the existing annotation shape as v1                | Canonical Schema unchanged; type-only inspector use and source compatibility pass. Producer constraints are documented in packages/protocol/README.md. |
+
+### Failure patterns and limits
+
+- Bun.inflateSync rejected standard HTTP zlib deflate; the Bun proxy uses its
+  node:zlib-compatible inflateSync at that boundary. This did not require a Node
+  proxy process or a runtime-version change.
+- React's scaffold entry exports no component and normally reloads on entry
+  edits. The no-reload HMR probe temporarily exports App to exercise Fast Refresh,
+  then restores the exact file. Actual full document reload also reinstalls the
+  inspector, with selection reset.
+- Direct stamps deliberately do not infer source from an ancestor. Dependencies,
+  app-owned shadow roots, non-JSX render functions, external/non-HTML Vue templates
+  and outside-root modules need fallback or future adapters. These fixture scores
+  do not establish accuracy on arbitrary repositories or Svelte.
+- Strict CSP can block the inspector script/style; those policies stay enforced.
+  HTML injection currently treats content as UTF-8; other encodings are unproven.
+  Capture listeners cannot undo app listeners that already ran earlier on the
+  same capture target.
+- Both image libraries miss opaque cross-origin images, despite successful PNG
+  export. One-pixel fractional-height rounding occurs. Keep the planned native
+  browser capture fallback for fidelity-sensitive cases; do not bypass CORS.
+- Measurements use Windows, Bun 1.3.14, Node 22.22.3 and Edge 156.0.4314.50. Node
+  compatibility is locally verified; cross-platform/browser behavior still needs
+  its real environment checks. Screenshot timing is local, not a general benchmark.
+
+### Gate evidence
+
+| M1 gate criterion                   | Observed result                                            |
+| ----------------------------------- | ---------------------------------------------------------- |
+| S0 passes or Node fallback in place | PASS: Bun proxy gate passes; Node fallback unnecessary     |
+| Vue correct file and line ≥90%      | PASS: 20/20 = 100%, independent expected/actual rows above |
+| React correct file and line ≥90%    | PASS: 20/20 = 100%, independent expected/actual rows above |
+
+All M1 tasks are addressed. This is a spike gate, not an MVP release. No canvas,
+annotation persistence/delivery, variants or compiled binary work was started.
+Those remain in M2. Final verification commands: make check, bun run e2e,
+node scripts/node-smoke.mjs, the Functional Effect core scan, and the six-frame
+CLI/HMR probe. Existing four informational Biome suggestions remain unchanged.

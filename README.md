@@ -2,8 +2,10 @@
 
 Self-hosted context for coding agents. The code is the source of truth.
 
-M1 spike in progress: the development proxy, inspector and Vue/React dev source
-stamps and inspector source lookup are available. The accuracy spike is in progress.
+M1 prototype: the development proxy, inspector, Vue/React source stamps and
+inspector source lookup are available. The fixture accuracy gate passes; see
+[spike results](spike/results.md) for measurements, choices and limitations.
+Canvas, annotations and agent delivery remain M2 work.
 See [PLAN.md](PLAN.md) for scope and [AGENTS.md](AGENTS.md) for contributor rules.
 
 Requires Bun 1.3.14+ and Node 22+ (compatibility check).
