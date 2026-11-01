@@ -22,3 +22,18 @@ M0 direct dependencies, read from installed package metadata. All listed license
 | vite                         | 8.3.5        | MIT               |
 | vue                          | 3.5.44       | MIT               |
 | vue-tsc                      | 3.3.14       | MIT               |
+
+S3 direct Vite-plugin dependencies (all already present transitively), verified
+from installed metadata before declaration:
+
+| Package           | Version | License      | Use                    |
+| ----------------- | ------- | ------------ | ---------------------- |
+| @vue/compiler-dom | 3.5.44  | MIT          | Vue template parser    |
+| @vue/compiler-sfc | 3.5.44  | MIT          | Vue SFC parser         |
+| magic-string      | 0.30.21 | MIT          | Source edits/maps      |
+| typescript        | 5.9.3   | Apache-2.0   | JSX/TSX parser         |
+| source-map-js     | 1.2.2   | BSD-3-Clause | Test-only map consumer |
+
+S6 comparison-only dev dependencies: modern-screenshot 4.7.0 and @zumer/snapdom
+3.7.0, both MIT. Registry and installed metadata checked before use; neither
+declares runtime dependencies or enters the initial inspector bundle.

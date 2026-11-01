@@ -1,3 +1,3 @@
 import type { Annotation as AnnotationSchema } from "./schema";
-/** Draft v1 JSON shape; finalized in M1. This module emits no runtime imports. */
+/** Retained v1 spike contract. This module emits no runtime imports. */
 export type Annotation = typeof AnnotationSchema.Type;

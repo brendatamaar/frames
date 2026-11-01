@@ -2,6 +2,7 @@ import { Slot } from "@radix-ui/react-slot";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { createRoot } from "react-dom/client";
+import Details from "./Details";
 
 function Card({ children }: { children: ReactNode }) {
   return (
@@ -32,6 +33,7 @@ function App() {
           </ul>
         )}
       </Card>
+      <Details />
     </main>
   );
 }
