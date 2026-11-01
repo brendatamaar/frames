@@ -2,8 +2,8 @@
 
 Self-hosted context for coding agents. The code is the source of truth.
 
-M1 spike in progress: the development proxy and inspector are available.
-Source stamping is not implemented yet.
+M1 spike in progress: the development proxy, inspector and Vue/React dev source
+stamps are available. Inspector source lookup is the next step.
 See [PLAN.md](PLAN.md) for scope and [AGENTS.md](AGENTS.md) for contributor rules.
 
 Requires Bun 1.3.14+ and Node 22+ (compatibility check).
@@ -32,6 +32,12 @@ enforced and may block the inspector; Frames preserves those policies.
 
 Run the browser tests with bun run e2e (builds first; uses Node and installed Edge).
 Set FRAMES_BROWSER to another local Chromium executable if needed.
+
+Enable source stamps in a Vue/React Vite config with `frames()` from
+`@frames/vite-plugin`, before the framework plugin. It stamps native template/JSX
+elements during dev serving only; production builds and SSR remain unchanged.
+The example Vue/React configs already enable it. See
+[source mapping](docs/source-mapping.md) for coverage and limitations.
 
 Package names use the local @frames scope; npm availability is unverified.
 Dependencies and their compatible licenses are recorded in docs/dependencies.md.

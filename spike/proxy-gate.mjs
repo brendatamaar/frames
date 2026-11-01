@@ -215,6 +215,9 @@ try {
     const snapshot = () =>
       evaluate(`Array.from(document.querySelectorAll('iframe'), frame => ({
       title: frame.contentDocument?.querySelector('h1')?.textContent,
+      sourceFile: frame.contentDocument?.querySelector('h1')?.getAttribute('data-frames-file'),
+      sourceLine: frame.contentDocument?.querySelector('h1')?.getAttribute('data-frames-line'),
+      sourceColumn: frame.contentDocument?.querySelector('h1')?.getAttribute('data-frames-column'),
       token: frame.contentWindow.__documentToken,
       injected: frame.contentWindow.__framesSpike || frame.contentWindow.performance.getEntriesByType('resource').some(entry => entry.name.endsWith('/__frames/inspector.js') && entry.responseStatus === 200),
       urls: frame.contentWindow.__socketUrls,
@@ -243,6 +246,15 @@ try {
     );
     if (cliMode) {
       assert(
+        initial.every(
+          (frame) =>
+            frame.sourceFile ===
+              (app === "vue" ? "src/App.vue" : "src/main.tsx") &&
+            Number(frame.sourceLine) > 0,
+        ),
+        `${app}: source stamps must exist in every frame`,
+      );
+      assert(
         await evaluate(`Array.from(document.querySelectorAll('iframe')).every(frame => {
         const doc = frame.contentDocument;
         const root = doc.querySelector('frames-inspector')?.shadowRoot;
@@ -259,7 +271,9 @@ try {
     try {
       await writeFile(
         file,
-        original.replace("Project dashboard", "S0 HMR verified"),
+        original
+          .replace("Project dashboard", "S0 HMR verified")
+          .replace("<h1>", "\n<h1>"),
       );
       const updated = await until(async () => {
         const frames = await snapshot();
@@ -279,6 +293,19 @@ try {
         "HMR must not reload the documents",
       );
       if (cliMode) {
+        assert.deepEqual(
+          updated.map((frame) => [
+            frame.sourceFile,
+            frame.sourceLine,
+            frame.sourceColumn,
+          ]),
+          initial.map((frame) => [
+            frame.sourceFile,
+            String(Number(frame.sourceLine) + 1),
+            "1",
+          ]),
+          `${app}: source stamps must update their positions after HMR`,
+        );
         assert(
           await evaluate(`Array.from(document.querySelectorAll('iframe')).every(frame => {
           const doc = frame.contentDocument;

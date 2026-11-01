@@ -129,8 +129,15 @@ Vue or JSX context, including file names with quotes or ampersands.
 
 ## Open questions
 
-Approve this approach before implementation: original AST transforms using the
+Approved by the user on 2026-11-01: original AST transforms using the
 existing compiler toolchain, three separate data-frames attributes, native tags
 only and one-based positions. This avoids coupling Frames to another inspector's
 client lifecycle. Accuracy remains to be measured, not assumed. S4 will consume
 the attributes; S5 will decide whether the approach meets the milestone gate.
+
+Implementation notes: adapters report typed StampTransformError failures to Vite.
+Only supported root-local main modules are transformed, without independently
+reading source files. Source maps retain the original module ID while browser
+stamp attributes stay root-relative. A test-only BSD-3-Clause source-map-js
+dependency verifies mapping positions after insertion. Compiler versions remain
+the exact versions already in this workspace; no third-party inspector is added.

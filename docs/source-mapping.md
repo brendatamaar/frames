@@ -1,6 +1,6 @@
 # Source mapping evaluation
 
-S3 design research, 2026-11-01. Implementation and accuracy measurements pending.
+S3 implementation, 2026-11-01. The S5 accuracy measurement remains pending.
 
 ## Candidate review
 
@@ -21,10 +21,10 @@ references: [code-inspector](https://github.com/zh-lx/code-inspector),
 versioned npm distributions ([Vite adapter](https://www.npmjs.com/package/@code-inspector/vite/v/2.0.9),
 [Vue plugin](https://www.npmjs.com/package/vite-plugin-vue-inspector/v/7.0.0)).
 
-## Proposed choice
+## Choice
 
-Implement original, small AST-based transforms using the compiler packages already
-present in this workspace. Do not copy candidate implementation code. The only
+Frames uses original, small AST-based transforms with compiler packages already
+present in this workspace. No candidate implementation code was copied. The only
 browser runtime stays the Frames inspector.
 
 - Vue: parse the SFC/template using Vue compiler APIs; stamp native elements,
@@ -41,10 +41,31 @@ browser runtime stays the Frames inspector.
 - Unsupported template languages and third-party internals retain DOM fallback;
   their limitations must be recorded rather than guessed away.
 
-Proposed package dependencies, checked from installed metadata: @vue/compiler-sfc
+Direct package dependencies, checked from installed metadata: @vue/compiler-sfc
 3.5.44 (MIT), @vue/compiler-dom 3.5.44 (MIT), magic-string 0.30.21 (MIT), and
 typescript 5.9.3 (Apache-2.0). All are MIT-compatible and already in the lockfile;
-S3 must declare those it imports directly in the Vite plugin's package manifest.
+the plugin declares these imports directly. source-map-js 1.2.2 (BSD-3-Clause,
+MIT-compatible) is a test-only dependency for checking actual original mappings.
 
-S3 acceptance requires actual Vite browser and production-build tests plus Node
-compatibility. S5 owns the 20-click-per-app measurement and the 90% accuracy gate.
+## Evidence and limits
+
+Real Vite browser tests check six representative native nodes per app, including
+Vue slot content and React Radix Slot children, against original file/line/column.
+Production bundle scans find no stamps or inspector code. Compiler contracts cover
+LF/CRLF, marker idempotence, escaping, native/wrapper distinctions, syntax errors
+and generated-to-original source-map positions. The compiled Node smoke exercises
+Vue and React transforms, production disablement and SSR exclusion.
+
+The six-frame browser probe also moves a heading onto a new line during HMR and
+asserts updated file/line/column stamps in every Vue/React frame without reload.
+
+Files outside the configured Vite root, node_modules, query/raw/virtual modules,
+SSR, external/non-HTML Vue templates and render functions without JSX are not
+stamped. Templates using non-HTML languages emit a diagnostic. Native descendants
+keep their own locations; component wrappers are deliberately skipped to avoid
+fallthrough attributes overwriting child source. Third-party internals may have
+no stamp; S4 must keep DOM fallback available.
+
+The inspector does not consume these attributes until S4. S5 owns the
+20-click-per-app measurement and the 90% milestone gate; these S3 samples do not
+substitute for that measurement.

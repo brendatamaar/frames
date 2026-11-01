@@ -4,6 +4,15 @@
   "private": true,
   "type": "module",
   "license": "MIT",
+  "dependencies": {
+    "@vue/compiler-dom": "3.5.44",
+    "@vue/compiler-sfc": "3.5.44",
+    "magic-string": "0.30.21",
+    "typescript": "5.9.3"
+  },
+  "devDependencies": {
+    "source-map-js": "1.2.2"
+  },
   "exports": {
     ".": {
       "types": "./src/index.ts",

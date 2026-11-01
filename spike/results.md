@@ -125,3 +125,32 @@ Measured 2026-11-01 with the S0 runtime/browser versions. No new dependencies.
   style CSP and capture handlers that ran before the inspector on the same window
   remain limitations. Source lookup and screenshots remain S4 and S6; the overall
   M1 source-accuracy gate is still pending.
+
+## S3 — Source stamping
+
+Measured 2026-11-01 with the S0 runtime/browser versions. The chosen original AST
+transforms and candidate review are documented in docs/source-mapping.md.
+
+- Dev Vue/React native elements receive root-relative data-frames-file and
+  one-based data-frames-line / data-frames-column attributes. Component wrappers
+  are skipped to preserve native descendants' actual locations. No inspector
+  client, editor middleware or agent integration is added to the Vite plugin.
+- Compiler contracts cover LF/CRLF, nested/list/conditional/slot/fragment content,
+  native/component distinctions, existing marker attributes, escaping, rejected
+  syntax and source-map positions after insertion. Removing the native-tag guard
+  made the property test fail; restored code and explicit purity scan pass.
+- `make check` passes 54 tests and all builds. `bun run e2e` passes nine tests,
+  including six sampled native nodes per app and scans showing no stamps or
+  inspector code in production bundles. `node scripts/node-smoke.mjs` exercises
+  the compiled Vue/React transforms, disabled production mode and SSR exclusion.
+- FRAMES_GATE_CLI=1 with `node spike/proxy-gate.mjs` passes: six frames per app
+  receive HMR edits that move a heading onto a new line, update its file/line/column
+  stamps, preserve document identities and retain working inspector selection.
+- Direct dependencies: @vue/compiler-sfc and @vue/compiler-dom 3.5.44 (MIT),
+  magic-string 0.30.21 (MIT), TypeScript 5.9.3 (Apache-2.0). Test-only source-map-js
+  1.2.2 is BSD-3-Clause. All were already installed transitively and checked for
+  compatible licenses before direct declaration; Effect is unchanged.
+- Unsupported/external Vue templates emit diagnostics; dependencies, outside-root
+  modules, SSR, query/raw modules and non-JSX render functions are not stamped.
+  DOM fallback consumption belongs to S4. These S3 samples do not replace S5's
+  20-click-per-app measurement; the overall M1 source-accuracy gate remains pending.
