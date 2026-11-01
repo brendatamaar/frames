@@ -95,6 +95,11 @@ export function createOverlay(document: Document): OverlayRenderer {
             tag: target.tag,
             classes: target.classes,
             selector: target.selector,
+            source:
+              target.context.tag === "stamped"
+                ? target.context.source
+                : "Source unavailable",
+            html: target.context.html,
             box: target.box,
             styles: target.styles,
           },

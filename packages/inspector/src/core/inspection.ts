@@ -1,3 +1,30 @@
+import type { Annotation } from "@frames/protocol/types";
+
+export type SourceLocation = NonNullable<Annotation["target"]["source"]>;
+export type StampResult =
+  | { readonly tag: "valid"; readonly source: SourceLocation }
+  | { readonly tag: "missing" | "invalid" };
+export type SourceContext =
+  | {
+      readonly tag: "stamped";
+      readonly source: SourceLocation;
+      readonly html: string;
+    }
+  | {
+      readonly tag: "domOnly";
+      readonly reason: "missing" | "invalid";
+      readonly html: string;
+    };
+export function makeContext(
+  stamp: StampResult,
+  outerHtml: string,
+): SourceContext {
+  const trimmed = outerHtml.trim();
+  const html = trimmed.length > 4096 ? `${trimmed.slice(0, 4095)}…` : trimmed;
+  return stamp.tag === "valid"
+    ? { tag: "stamped", source: stamp.source, html }
+    : { tag: "domOnly", reason: stamp.tag, html };
+}
 export type TargetId = number & { readonly __targetId: unique symbol };
 export interface TargetSnapshot {
   readonly id: TargetId;
@@ -5,6 +32,7 @@ export interface TargetSnapshot {
   readonly classes: readonly string[];
   readonly selector: string;
   readonly styles: Readonly<Record<string, string>>;
+  readonly context: SourceContext;
   readonly box: {
     readonly x: number;
     readonly y: number;

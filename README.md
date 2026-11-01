@@ -3,7 +3,7 @@
 Self-hosted context for coding agents. The code is the source of truth.
 
 M1 spike in progress: the development proxy, inspector and Vue/React dev source
-stamps are available. Inspector source lookup is the next step.
+stamps and inspector source lookup are available. The accuracy spike is in progress.
 See [PLAN.md](PLAN.md) for scope and [AGENTS.md](AGENTS.md) for contributor rules.
 
 Requires Bun 1.3.14+ and Node 22+ (compatibility check).
@@ -25,7 +25,9 @@ Open the printed loopback URL. The proxy injects the built inspector entry and
 passes HMR through. Click Inspect to enable hover highlighting and selection;
 Shift-click toggles additional targets. Disabling Inspect clears the selection
 and restores ordinary app clicks. The readout includes selectors, computed
-styles and element bounds. Stop with Ctrl+C.
+styles, element bounds, source locations and bounded HTML. Unstamped or invalid
+source attributes retain DOM context without guessing an ancestor's source.
+Stop with Ctrl+C.
 Use an HTTP(S) origin without a path or credentials. This command is development
 only and refuses NODE_ENV=production. Restrictive script CSP policies remain
 enforced and may block the inspector; Frames preserves those policies.

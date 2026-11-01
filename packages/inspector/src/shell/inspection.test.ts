@@ -14,6 +14,7 @@ const targets: TargetSnapshot[] = [1, 2, 3].map((id) => ({
   classes: [],
   selector: `#button-${id}`,
   styles: {},
+  context: { tag: "domOnly", reason: "missing", html: "<button></button>" },
   box: { x: id, y: 0, w: 10, h: 10 },
 }));
 const domain: Input[] = [

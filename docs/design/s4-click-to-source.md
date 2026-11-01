@@ -130,7 +130,8 @@ respect its runtime-import lint rule. No postMessage listener is introduced.
 
 ## Open questions
 
-Approve before implementation. Proposed policy: exact-element stamps only;
+Approved on 2026-11-01, with standing approval for subsequent M1 design decisions.
+Policy: exact-element stamps only;
 always retain a bounded HTML snippet; show source unavailable for missing/invalid
 stamps. No ancestor inference, source-file reading or new messaging API. The M0
 annotation Schema remains unchanged; this reader validates a stricter subset.

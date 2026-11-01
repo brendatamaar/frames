@@ -260,7 +260,8 @@ try {
         const root = doc.querySelector('frames-inspector')?.shadowRoot;
         root?.querySelector('button').click();
         doc.querySelector('h1').click();
-        return root?.querySelector('button').getAttribute('aria-pressed') === 'true' && root.querySelectorAll('li').length === 1;
+        const details = JSON.parse(root.querySelector('li pre').textContent);
+        return root?.querySelector('button').getAttribute('aria-pressed') === 'true' && root.querySelectorAll('li').length === 1 && details.source.file === doc.querySelector('h1').getAttribute('data-frames-file');
       })`),
         `${app}: inspector must select in all six frames`,
       );
@@ -312,7 +313,8 @@ try {
           const roots = doc.querySelectorAll('frames-inspector');
           const root = roots[0]?.shadowRoot;
           doc.querySelector('h1').click();
-          return roots.length === 1 && root?.querySelector('button').getAttribute('aria-pressed') === 'true' && root.querySelectorAll('li').length === 1;
+          const details = JSON.parse(root.querySelector('li pre').textContent);
+          return roots.length === 1 && root?.querySelector('button').getAttribute('aria-pressed') === 'true' && root.querySelectorAll('li').length === 1 && details.source.line === Number(doc.querySelector('h1').getAttribute('data-frames-line')) && details.html.includes('S0 HMR verified');
         })`),
           `${app}: inspector must remain interactive after HMR`,
         );

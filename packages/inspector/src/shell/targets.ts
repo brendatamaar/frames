@@ -1,4 +1,9 @@
-import type { TargetId, TargetSnapshot } from "../core/inspection";
+import {
+  makeContext,
+  type TargetId,
+  type TargetSnapshot,
+} from "../core/inspection";
+import { readStamp } from "./source";
 
 const styleKeys = [
   "display",
@@ -80,6 +85,7 @@ export function createTargetReader(
           styleKeys.map((key) => [key, computed.getPropertyValue(key)]),
         ),
         box,
+        context: makeContext(readStamp(element), element.outerHTML),
       };
     },
     element: (id) => references.get(id),

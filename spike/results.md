@@ -154,3 +154,17 @@ transforms and candidate review are documented in docs/source-mapping.md.
   modules, SSR, query/raw modules and non-JSX render functions are not stamped.
   DOM fallback consumption belongs to S4. These S3 samples do not replace S5's
   20-click-per-app measurement; the overall M1 source-accuracy gate remains pending.
+
+## S4 — Clicked source and DOM fallback
+
+- Inspector snapshots/readout now include validated direct-element source stamps
+  and HTML trimmed to at most 4,096 characters. Missing, partial or malformed
+  stamps retain DOM context and report source unavailable; ancestors are not used.
+- `make check` passed 57 tests and all builds; `bun run e2e` passed ten browser
+  tests. Attribute mutation refresh, bounded fallback, ancestor exclusion and
+  text-only rendering are covered. Successful sources fit the unchanged protocol
+  Schema; no Effect runtime enters the inspector.
+- The HTML-bound mutation was caught; restored tests and core purity scan pass.
+  Inspector gzip is 3,391 bytes. No dependency added.
+- Six-frame Vue/React HMR probes verify the inspector readout, updated source
+  positions and changed HTML after HMR. S5 remains the full accuracy measurement.

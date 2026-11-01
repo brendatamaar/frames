@@ -208,6 +208,47 @@ test("target boundaries round-trip selectors and reject disconnected nodes and i
   expect(results.shadow).toBeNull();
 });
 
+test("source readout uses only direct valid stamps and retains bounded DOM fallback", async ({
+  page,
+}) => {
+  await page.goto(origin);
+  const host = page.locator("frames-inspector");
+  await host.getByRole("button", { name: "Inspect", exact: true }).click();
+  await page.locator("#first").evaluate((element) => {
+    element.setAttribute("data-frames-file", "src/Fixture.tsx");
+    element.setAttribute("data-frames-line", "12");
+    element.setAttribute("data-frames-column", "4");
+  });
+  await page.locator("#first").click();
+  const context = async () =>
+    JSON.parse((await host.locator("li pre").textContent()) ?? "null");
+  expect((await context()).source).toEqual({
+    file: "src/Fixture.tsx",
+    line: 12,
+    column: 4,
+  });
+  await page.locator("#first").evaluate((element) => {
+    element.setAttribute("data-frames-line", "0");
+  });
+  await expect
+    .poll(async () => (await context()).source)
+    .toBe("Source unavailable");
+  expect((await context()).html).toContain('<button id="first"');
+  await page.locator("#first").evaluate((element) => {
+    for (const name of ["file", "line", "column"])
+      element.removeAttribute(`data-frames-${name}`);
+    const parent = element.parentElement;
+    parent?.setAttribute("data-frames-file", "src/Ancestor.vue");
+    parent?.setAttribute("data-frames-line", "1");
+    parent?.setAttribute("data-frames-column", "1");
+    element.textContent = "x".repeat(7000);
+  });
+  await expect.poll(async () => (await context()).html.length).toBe(4096);
+  expect((await context()).source).toBe("Source unavailable");
+  expect((await context()).selector).toBe("#first");
+  await expect(host.locator("pre button")).toHaveCount(0);
+});
+
 test("scroll, mutation, repeated injection and teardown preserve one installation", async ({
   page,
 }) => {
